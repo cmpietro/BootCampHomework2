@@ -1,0 +1,76 @@
+
+
+Sub StocksEasy()
+
+    'HOMEWORK TEST SET(1)
+  ' Set an initial variable for holding the ticker name
+  
+  ' Set an initial variable for holding the total per Stock
+  Dim Volume_Total As Double
+  Volume_Total = 0
+
+  ' Keep track of the location for each Volume_Total in the summary table
+  Dim Summary_Table_Row As Integer
+  Summary_Table_Row = 2
+
+  ' Loop through all Volume
+  Dim i As Integer
+'ADDED THIS FROM SUCCESSFUL 
+  Dim ws As Worksheet
+  Dim LastRow As Long          
+  Dim lastRowState As Long
+    
+    
+
+  ' Loop through all sheets
+    For Each ws In Worksheets
+
+        ' Find the last row of the combined sheet after each paste
+        ' Add 1 to get first empty row
+        LastRow = ws.Cells(Rows.Count, "A").End(xlUp).Row + 1
+
+        ' Find the last row of each worksheet
+        ' Subtract one to return the number of rows without header
+        lastRowState = ws.Cells(Rows.Count, "A").End(xlUp).Row - 1
+'THROUGH TO HERE
+
+ ' Check if we are still within the same Ticker, if it is not...
+    If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+   
+      ' Set the Ticker name
+      Dim Ticker_Name As String
+      
+      Ticker_Name = Cells(i, 1).Value
+
+      ' Add to the Volume Total
+      Volume_Total = Volume_Total + Cells(i, 7).Value
+
+      ' Print the Ticker Brand in the Summary Table
+      Range("I" & Summary_Table_Row).Value = Ticker_Name
+
+      ' Print the Volume Amount to the Summary Table
+      Range("J" & Summary_Table_Row).Value = Volume_Total
+
+      ' Add one to the summary table row
+      Summary_Table_Row = Summary_Table_Row + 1
+      
+      ' Reset the Brand Total
+      Volume_Total = 0
+
+    ' If the cell immediately following a row is the same brand...
+    Else
+
+      ' Add to the Ticker Total
+      Volume_Total = Volume_Total + Cells(i, 7).Value
+      
+    End If
+    Cells(1, 9) = "Ticker"
+    Cells(1, 10) = "Total"
+    Range("A1:J1").HorizontalAlignment = xlCenter
+    
+ Next i
+ 
+  
+
+End Sub
+
